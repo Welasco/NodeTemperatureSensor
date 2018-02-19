@@ -109,7 +109,7 @@ private updateTemperatureSensorceDeviceType(String cmd) {
 	def TemperatureSensorNetworkID = "TemperatureSensor"
   def TemperatureSensordevice = getChildDevice(TemperatureSensorNetworkID)
   if (TemperatureSensordevice) {
-    TemperatureSensor.TemperatureSensorparse("${cmd}")
+    TemperatureSensordevice.TemperatureSensorparse("${cmd}")
     writeLog("TemperatureSensorSmartApp - Updating TemperatureSensor Device ${TemperatureSensorNetworkID} using Command: ${cmd}")
   }
 }
