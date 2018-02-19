@@ -172,23 +172,7 @@ function fahrenheitToCelsius(fahrenheit)
 
 
 interval = setInterval(function () { //#C
-
-    sensor.read(11, 21, function(err, temperature, humidity) {
-        if (!err) {
-            var vartemperatureF = (temperature.toFixed(1) * 9 / 5 + 32 )
-            var vartemperatureC = (temperature.toFixed(1))
-            var varhumidity = humidity.toFixed(1)
-
-            logger("Reading Temperature Loop","Temperature in Fahrenheit: " + vartemperatureF + ' °F');
-            logger("Reading Temperature Loop","Temperature in Celsius: " + vartemperatureC + ' °C');
-            logger("Reading Temperature Loop","Humidity: " + varhumidity + ' %');
-            var temphumi = (vartemperatureF.toString() + "-" + varhumidity.toString()) 
-            sendSmartThingMsg(temphumi);
-        }
-        else{
-            logger("Reading Temperature Loop","Error: " + err);
-        }
-    });
+    collecttemperature()
 }, 900000);
 
 // 5 seconds is 5000

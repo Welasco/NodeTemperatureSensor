@@ -12,7 +12,7 @@
  *
  */
 metadata {
-	definition (name: "Temperature Sensor", namespace: "smartthings", author: "SmartThings") {
+	definition (name: "Temperature Sensor", namespace: "TemperatureSensor", author: "SmartThings") {
 		capability "Temperature Measurement"
 		capability "Relative Humidity Measurement"
 		capability "Sensor"
@@ -43,11 +43,13 @@ metadata {
 }
 
 def TemperatureSensorparse(String description){
+	//log.debug "TemperatureSensor DeviceType - Description: ${description}"
 	def temphumid = description.split("-")
 	def temperature = temphumid[0]
 	def humidity = temphumid[1]
-	def resultTemp = createEvent(name: "temperature", value: temperature, unit: getTemperatureScale())
-	def resultHumi = createEvent(name: "humidity", value: humidity, unit: "%")
+	//log.debug "TemperatureSensor DeviceType - temperature: ${temperature} humidity: ${humidity}"
+    sendEvent(name: "temperature", value: temperature, unit: getTemperatureScale())
+    sendEvent(name: "humidity", value: humidity, unit: "%")
 }
 
 // Parse incoming device messages to generate events
