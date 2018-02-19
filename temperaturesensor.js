@@ -142,7 +142,7 @@ function collecttemperature(){
             logger("Reading Temperature Loop","Temperature in Celsius: " + vartemperatureC + ' °C');
             logger("Reading Temperature Loop","Humidity: " + varhumidity + ' %');
             var temphumi = (vartemperatureF + "-" +varhumidity) 
-            sendSmartThingMsg("temphumi");
+            sendSmartThingMsg(temphumi);
         }
         else{
             logger("Reading Temperature Loop","Error: " + err);
