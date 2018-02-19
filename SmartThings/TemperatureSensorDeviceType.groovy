@@ -16,6 +16,7 @@ metadata {
 		capability "Temperature Measurement"
 		capability "Relative Humidity Measurement"
 		capability "Sensor"
+		capability "Refresh"
 	}
 
 	// UI tile definitions
@@ -30,15 +31,18 @@ metadata {
 					[value: 84, color: "#f1d801"],
 					[value: 95, color: "#d04e00"],
 					[value: 96, color: "#bc2323"]
-				]
+				],
+				icon:"st.Weather.weather2"
 			)
 		}
 		valueTile("humidity", "device.humidity") {
 			state "humidity", label:'${currentValue}%', unit:""
 		}
-
-		main(["temperature", "humidity"])
-		details(["temperature", "humidity"])
+		standardTile("refresh", "device.refresh", inactiveLabel: false, width: 1, height: 1, canChangeIcon: false, canChangeBackground: false) {
+				state "default", action:"refresh", icon:"st.secondary.refresh"
+		}
+		main(["temperature", "humidity", "refresh"])
+		details(["temperature", "humidity", "refresh"])
 	}
 }
 
@@ -50,6 +54,16 @@ def TemperatureSensorparse(String description){
 	//log.debug "TemperatureSensor DeviceType - temperature: ${temperature} humidity: ${humidity}"
     sendEvent(name: "temperature", value: temperature, unit: getTemperatureScale())
     sendEvent(name: "humidity", value: humidity, unit: "%")
+}
+
+def refresh(){
+    parent.writeLog("TemperatureSensor Device Type - Sending command")
+    sendRaspberryCommand("temperaturesensor")
+}
+
+def sendRaspberryCommand(String command) {
+	def path = "/api/$command"
+    parent.sendCommand(path);
 }
 
 // Parse incoming device messages to generate events
