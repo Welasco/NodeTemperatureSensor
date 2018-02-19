@@ -1,19 +1,19 @@
 /**
- *  FireplaceApp
+ *  TemperatureSensorApp
  *
  *  Author: Victor Santana
- *  Date: 2017-12-21
+ *  Date: 2018-02-18
  */
 
 definition(
-    name: "Fireplace SmartApp",
-    namespace: "Fireplace",
+    name: "Temperature Sensor SmartApp",
+    namespace: "Temperature Sensor",
     author: "Victor Santana",
-    description: "Fireplace Switch",
+    description: "Temperature Sensor",
     category: "My Apps",
-    iconUrl: "https://graph.api.smartthings.com/api/devices/icons/st.Home.home29-icn",
-    iconX2Url: "https://graph.api.smartthings.com/api/devices/icons/st.Home.home29-icn?displaySize=2x",
-    iconX3Url: "https://graph.api.smartthings.com/api/devices/icons/st.Home.home29-icn?displaySize=3x",
+    iconUrl: "https://graph.api.smartthings.com/api/devices/icons/st.Weather.weather2-icn",
+    iconX2Url: "https://graph.api.smartthings.com/api/devices/icons/st.Weather.weather2-icn?displaySize=2x",
+    iconX3Url: "https://graph.api.smartthings.com/api/devices/icons/st.Weather.weather2-icn?displaySize=3x",
     singleInstance: true
 )
 
@@ -40,13 +40,13 @@ def page1() {
 }
 
 def installed() {
-  writeLog("FireplaceSmartApp - Fireplace Installed with settings: ${settings}")
+  writeLog("TemperatureSensorSmartApp - TemperatureSensor Installed with settings: ${settings}")
 	initialize()
-  addFireplaceDeviceType()
+  addTemperatureSensorDeviceType()
 }
 
 def updated() {
-  writeLog("FireplaceSmartApp - Updated with settings: ${settings}")
+  writeLog("TemperatureSensorSmartApp - Updated with settings: ${settings}")
 	//unsubscribe()
 	initialize()
   sendCommand('/subscribe/'+getNotifyAddress())
@@ -54,7 +54,7 @@ def updated() {
 
 def initialize() {
     subscribe(location, null, lanResponseHandler, [filterEvents:false])
-    writeLog("FireplaceSmartApp - Initialize")
+    writeLog("TemperatureSensorSmartApp - Initialize")
 }
 
 def uninstalled() {
@@ -63,7 +63,7 @@ def uninstalled() {
 
 private removeChildDevices() {
     getAllChildDevices().each { deleteChildDevice(it.deviceNetworkId) }
-    writeLog("FireplaceSmartApp - Removing all child devices")
+    writeLog("TemperatureSensorSmartApp - Removing all child devices")
 }
 
 def lanResponseHandler(evt) {
@@ -92,33 +92,33 @@ def lanResponseHandler(evt) {
         //return
     //}
 
-    if (headers.'device' != 'fireplace') {
-      writeLog("FireplaceSmartApp - Received event ${evt.stringValue} but it didn't came from Fireplace")
-      writeLog("FireplaceSmartApp - Received event but it didn't came from Fireplace headers:  ${headers}")
-      writeLog("FireplaceSmartApp - Received event but it didn't came from Fireplace body: ${body}")      
+    if (headers.'device' != 'temperaturesensor') {
+      writeLog("TemperatureSensorSmartApp - Received event ${evt.stringValue} but it didn't came from TemperatureSensor")
+      writeLog("TemperatureSensorSmartApp - Received event but it didn't came from TemperatureSensor headers:  ${headers}")
+      writeLog("TemperatureSensorSmartApp - Received event but it didn't came from TemperatureSensor body: ${body}")      
       return
     }
 
     //log.trace "Honeywell Security event: ${evt.stringValue}"
-    writeLog("FireplaceSmartApp - Received event headers:  ${headers}")
-    writeLog("FireplaceSmartApp - Received event body: ${body}")
-    updateFireplaceDeviceType(body.command)
+    writeLog("TemperatureSensorSmartApp - Received event headers:  ${headers}")
+    writeLog("TemperatureSensorSmartApp - Received event body: ${body}")
+    updateTemperatureSensorceDeviceType(body.command)
 }
 
-private updateFireplaceDeviceType(String cmd) {
-	def FireplaceNetworkID = "Fireplace"
-  def Fireplacedevice = getChildDevice(FireplaceNetworkID)
-  if (Fireplacedevice) {
-    Fireplacedevice.Fireplaceparse("${cmd}")
-    writeLog("FireplaceSmartApp - Updating Fireplace Device ${FireplaceNetworkID} using Command: ${cmd}")
+private updateTemperatureSensorceDeviceType(String cmd) {
+	def TemperatureSensorNetworkID = "TemperatureSensor"
+  def TemperatureSensordevice = getChildDevice(TemperatureSensorNetworkID)
+  if (TemperatureSensordevice) {
+    TemperatureSensor.TemperatureSensorparse("${cmd}")
+    writeLog("TemperatureSensorSmartApp - Updating TemperatureSensor Device ${TemperatureSensorNetworkID} using Command: ${cmd}")
   }
 }
 
-private addFireplaceDeviceType() {
-  def deviceId = 'Fireplace'
+private addTemperatureSensorDeviceType() {
+  def deviceId = 'TemperatureSensor'
   if (!getChildDevice(deviceId)) {
-    addChildDevice("Fireplace", "Fireplace Switch", deviceId, hostHub.id, ["name": "Fireplace", label: "Fireplace", completedSetup: true])
-    writeLog("FireplaceSmartApp - Added FireplaceDeviceType device: ${deviceId}")
+    addChildDevice("TemperatureSensor", "Temperature Sensor", deviceId, hostHub.id, ["name": "TemperatureSensor", label: "TemperatureSensor", completedSetup: true])
+    writeLog("TemperatureSensorSmartApp - Added TemperatureSensorDeviceType device: ${deviceId}")
   }
 }
 

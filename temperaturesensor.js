@@ -41,7 +41,7 @@ app.get("/", function (req, res) {
             logger("Reading Temperature Loop","Temperature in Celsius: " + vartemperatureC + ' °C');
             logger("Reading Temperature Loop","Humidity: " + varhumidity + ' %');
             var temphumi = (vartemperatureF + "-" +varhumidity) 
-            res.send("<html><body><h1>TemperatureSensor</h1><br>Temperature in Fahrenheit: " + vartemperatureF + "<br>Humidity: " + varhumidity + "</body></html>");
+            res.send("<html><body><h1>TemperatureSensor</h1><br>Temperature in Fahrenheit: " + vartemperatureF + "<br>Temperature in Celsius: " + vartemperatureC +"<br>Humidity: " + varhumidity + "</body></html>");
         }
         else{
             logger("Reading Temperature Loop","Error: " + err);

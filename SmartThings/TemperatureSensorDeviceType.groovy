@@ -16,19 +16,6 @@ metadata {
 		capability "Temperature Measurement"
 		capability "Relative Humidity Measurement"
 		capability "Sensor"
-
-		fingerprint profileId: "0104", deviceId: "0302", inClusters: "0000,0001,0003,0009,0402,0405"
-	}
-
-	// simulator metadata
-	simulator {
-		for (int i = 0; i <= 100; i += 10) {
-			status "${i}F": "temperature: $i F"
-		}
-
-		for (int i = 0; i <= 100; i += 10) {
-			status "${i}%": "humidity: ${i}%"
-		}
 	}
 
 	// UI tile definitions
@@ -55,7 +42,16 @@ metadata {
 	}
 }
 
+def TemperatureSensorparse(String description){
+	def temphumid = description.split("-")
+	def temperature = temphumid[0]
+	def humidity = temphumid[1]
+	def resultTemp = createEvent(name: "temperature", value: temperature, unit: getTemperatureScale())
+	def resultHumi = createEvent(name: "humidity", value: humidity, unit: "%")
+}
+
 // Parse incoming device messages to generate events
+/*
 def parse(String description) {
 	def name = parseName(description)
 	def value = parseValue(description)
@@ -85,3 +81,4 @@ private String parseValue(String description) {
 	}
 	null
 }
+*/
